@@ -9,7 +9,7 @@ import {
 import { StateUpdater, useState } from "preact/hooks";
 
 interface FleetInfoProps {
-  auth: Signal<string>;
+  token: string;
 }
 
 async function getFleetInfo(
@@ -43,7 +43,7 @@ export default function FleetInfo(params: FleetInfoProps) {
   const [fleetInfo, setFleetInfo] = useState<Ship[]>();
 
   const handleFleetInfoClick = async () => {
-    const ships = await getFleetInfo(params.auth.value);
+    const ships = await getFleetInfo(params.token);
     setFleetInfo(ships);
   };
 
