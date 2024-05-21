@@ -14,3 +14,27 @@ services:
       - '20000:8000'
     volumes:
       - ./:/root
+
+  st-mongo:
+    image: mongo
+    container_name: st-mongo
+    hostname: st-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./mongodb_data:/data/db
+      - ./configdb:/data/configdb
+
+  st-mongo-express:
+    image: mongo-express
+    container_name: st-mongo_express
+    ports:
+      - 20001:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - st-mongo
+    tty: true
