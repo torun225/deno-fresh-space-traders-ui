@@ -1,4 +1,3 @@
-import { useSignal } from "@preact/signals";
 import FleetInfo from "../islands/FleetInfo.tsx";
 import { config, DotenvConfig } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 const config_env: DotenvConfig = config();

@@ -1,4 +1,3 @@
-import type { Signal } from "@preact/signals";
 import { Button } from "../components/Button.tsx";
 import {
   createConfiguration,
@@ -6,7 +5,7 @@ import {
   RequestContext,
   Ship,
 } from "../client/index.ts";
-import { StateUpdater, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 
 interface FleetInfoProps {
   token: string;
