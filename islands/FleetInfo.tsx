@@ -4,10 +4,11 @@ import {
   RequestContext,
   Ship,
 } from "../client/index.ts";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 interface FleetInfoProps {
   token: string;
+  className?: string;
 }
 
 async function getFleetInfo(
@@ -37,22 +38,28 @@ async function getFleetInfo(
   return rdata;
 }
 
-export default function FleetInfo(params: FleetInfoProps) {
+export default function FleetInfo({ token, className }: FleetInfoProps) {
   const [fleetInfo, setFleetInfo] = useState<Ship[]>();
 
-  const handleFleetInfoClick = async () => {
-    const ships = await getFleetInfo(params.token);
-    setFleetInfo(ships);
-  };
+  useEffect(() => {
+    const fetchFleetInfo = async () => {
+      const ships = await getFleetInfo(token);
+      setFleetInfo(ships);
+    };
+    fetchFleetInfo();
+  }, [token]);
 
   return (
-    <div class="gap-8 py-6">
-      <button class="btn btn-primary" onClick={handleFleetInfoClick}>
-        Get FleetInfo
-      </button>
+    <div class={`grid gap-4 ${className}`}>
       {fleetInfo?.map((ship, index) => (
-        <div key={index}>
-          <p>{JSON.stringify(ship)}</p>
+        <div key={ship.symbol} className="collapse bg-base-200">
+          <input type="checkbox" name={ship.symbol} />
+          <div className="collapse-title text-xl font-medium">
+            {ship.symbol}
+          </div>
+          <div className="collapse-content">
+            <p>{JSON.stringify(ship.nav)}</p>
+          </div>
         </div>
       ))}
     </div>

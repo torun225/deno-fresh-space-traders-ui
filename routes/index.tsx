@@ -5,9 +5,9 @@ const token: string = config_env.token;
 
 export default function Home() {
   return (
-    <div class="px-4 py-8 mx-auto">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <FleetInfo token={token} />
+    <div class="m-4">
+      <div class="max-w-screen-md max-h-screen mx-auto flex flex-row">
+        <FleetInfo className="basis-1/4" token={token} />
       </div>
     </div>
   );
