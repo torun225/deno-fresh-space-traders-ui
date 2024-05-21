@@ -1,0 +1,8 @@
+version: "3.0"
+services:
+# https://github.com/openapitools/openapi-generator-cli     
+  openapi-generator-server:
+    image: openapitools/openapi-generator-cli
+    volumes:
+      - ./:/local
+    command: generate -i /local/schema.json -g typescript --additional-properties=platform=deno -o /local/client

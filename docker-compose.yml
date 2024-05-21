@@ -1,0 +1,16 @@
+version: '3'
+services:
+  st-ui:
+    build:
+      context: .
+      dockerfile: ./docker/deno/Dockerfile
+    image: deno:debian-1.43.3-add-tools
+    container_name: st-ui
+    hostname: st-ui
+    environment:
+      TZ: "Asia/Tokyo"
+    tty: true
+    ports:
+      - '20000:8000'
+    volumes:
+      - ./:/root
