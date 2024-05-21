@@ -48,9 +48,9 @@ export default function FleetInfo(params: FleetInfoProps) {
 
   return (
     <div class="gap-8 py-6">
-      <Button onClick={handleFleetInfoClick}>
+      <button class="btn btn-primary" onClick={handleFleetInfoClick}>
         Get FleetInfo
-      </Button>
+      </button>
       {fleetInfo?.map((ship, index) => (
         <div key={index}>
           <p>{JSON.stringify(ship)}</p>

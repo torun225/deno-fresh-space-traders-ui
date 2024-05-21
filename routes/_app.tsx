@@ -8,7 +8,7 @@ export default function App({ Component }: PageProps) {
         <title>Space Traders UI by deno & fresh</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
-      <body class="bg-black text-green-100">
+      <body data-theme="dim">
         <Component />
       </body>
     </html>
