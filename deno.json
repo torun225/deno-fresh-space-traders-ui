@@ -31,7 +31,8 @@
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "tailwindcss/typography": "npm:@tailwindcss/typography",
     "$std/": "https://deno.land/std@0.216.0/",
-    "daisy-ui": "npm:daisyui@latest"
+    "daisy-ui": "npm:daisyui@latest",
+    "$fresh_charts/": "https://deno.land/x/fresh_charts@0.3.1/"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

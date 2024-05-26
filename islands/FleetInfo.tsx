@@ -1,12 +1,11 @@
 import { Ship } from "../client/index.ts";
 
 interface FleetInfoProps {
-  token: string;
   className?: string;
   fleet?: Ship[];
 }
 
-export default function FleetInfo({ token, className, fleet }: FleetInfoProps) {
+export default function FleetInfo({ className, fleet }: FleetInfoProps) {
   return (
     <div class={`grid gap-4 ${className}`}>
       <h1 class="text-xl">Fleet Info</h1>
