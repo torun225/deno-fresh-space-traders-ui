@@ -1,6 +1,6 @@
 import daisyui from "daisy-ui";
 import { type Config } from "tailwindcss";
-import typography from "tailwindcss/plugin";
+import typography from "tailwindcss/typography";
 
 export default {
   content: [
