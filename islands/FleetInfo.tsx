@@ -38,7 +38,10 @@ export default function FleetInfo({ className, fleet }: FleetInfoProps) {
               </div>
             </div>
             <div class="card-actions justify-end">
-              <button class="btn btn-primary">Show Details</button>
+              <div class="join">
+                <button class="btn join-item btn-primary">Action</button>
+                <button class="btn join-item btn-secondary">Detail</button>
+              </div>
             </div>
           </div>
         </div>
