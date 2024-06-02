@@ -65,7 +65,9 @@ export default function Home({ token }: MainProps) {
     <div class="m-4">
       <div class="max-w-screen-xl max-h-screen mx-auto flex flex-row">
         <FleetInfo className="basis-1/3" fleet={fleetInfo} />
+        <div class="divider divider-horizontal"></div>
         <div class="basis-1/3"></div>
+        <div class="divider divider-horizontal"></div>
         <div class="basis-1/3">
           <h1 class="text-xl">Galaxy Map</h1>
           {systemsInfo && systemsInfo.length > 0 && (
