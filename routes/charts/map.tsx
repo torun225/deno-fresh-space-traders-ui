@@ -1,7 +1,7 @@
 import { FreshContext, type Handlers } from "$fresh/server.ts";
 import { renderChart } from "$fresh_charts/mod.ts";
 
-interface Position {
+export interface Position {
   label: string;
   x: number;
   y: number;
@@ -40,7 +40,11 @@ export const handler: Handlers = {
             min: -10000,
             max: 10000,
             ticks: {
-              stepSize: 1000,
+              stepSize: 5000,
+              color: "silver",
+            },
+            grid: {
+              color: "gray",
             },
           },
           y: {
@@ -49,7 +53,11 @@ export const handler: Handlers = {
             min: -10000,
             max: 10000,
             ticks: {
-              stepSize: 1000,
+              stepSize: 5000,
+              color: "silver",
+            },
+            grid: {
+              color: "gray",
             },
           },
         },
@@ -59,6 +67,24 @@ export const handler: Handlers = {
           },
         },
       },
+      plugins: [{
+        id: "customLabel",
+        beforeDraw: (chart) => {
+          const ctx = chart.ctx;
+          ctx.save();
+          const meta = chart.getDatasetMeta(0);
+          meta.data.forEach((point, index) => {
+            const data = datasetsData[index];
+            ctx.fillStyle = "silver";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            const posX = point.x;
+            const posY = point.y;
+            ctx.fillText(data.label, posX, posY - 10);
+          });
+          ctx.restore();
+        },
+      }],
       width: 300,
       height: 300,
     });

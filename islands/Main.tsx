@@ -2,19 +2,14 @@ import FleetInfo from "./FleetInfo.tsx";
 import { useEffect, useState } from "preact/hooks";
 import { getFleetInfo, getSystemInfo } from "../utils/Data.ts";
 import { Ship, System } from "../client/index.ts";
+import { Position } from "../routes/charts/map.tsx";
 
 interface MainProps {
   token: string;
 }
 
-interface Map {
-  label: string;
-  x: number;
-  y: number;
-}
-
 function convertSystemsToMap(systems: System[]) {
-  const maps: Map[] = [];
+  const maps: Position[] = [];
   systems.forEach((system) => {
     maps.push({ label: system.symbol, x: system.x, y: system.y });
   });
