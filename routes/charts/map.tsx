@@ -37,19 +37,19 @@ export const handler: Handlers = {
           x: {
             type: "linear",
             position: "center",
-            min: -100,
-            max: 100,
+            min: -10000,
+            max: 10000,
             ticks: {
-              stepSize: 20,
+              stepSize: 1000,
             },
           },
           y: {
             type: "linear",
             position: "center",
-            min: -100,
-            max: 100,
+            min: -10000,
+            max: 10000,
             ticks: {
-              stepSize: 20,
+              stepSize: 1000,
             },
           },
         },
