@@ -32,7 +32,8 @@
     "tailwindcss/typography": "npm:@tailwindcss/typography",
     "$std/": "https://deno.land/std@0.216.0/",
     "daisy-ui": "npm:daisyui@latest",
-    "$fresh_charts/": "https://deno.land/x/fresh_charts@0.3.1/"
+    "$fresh_charts/": "https://deno.land/x/fresh_charts@0.3.1/",
+    "mongoClient": "https://deno.land/x/mongo@v0.32.0/mod.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

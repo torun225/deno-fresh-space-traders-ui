@@ -29,8 +29,6 @@ export async function getFleetInfo(
     return response.data;
   });
 
-  console.log(rdata);
-
   return rdata;
 }
 
@@ -41,7 +39,16 @@ export async function getSystemInfo(token: string, symbol: string) {
     return responce.data;
   });
 
-  console.log(rdata);
-
   return rdata;
+}
+
+export async function getSystems(
+  token: string,
+  page: number,
+  limit: number,
+) {
+  const systemsApi = new SystemsApi(myConfiguration(SERVER_ADDRESS, token));
+  const responce = await systemsApi.getSystems(page, limit).then();
+
+  return responce;
 }
