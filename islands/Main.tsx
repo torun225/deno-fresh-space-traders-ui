@@ -2,27 +2,10 @@ import FleetInfo from "./FleetInfo.tsx";
 import { useEffect, useState } from "preact/hooks";
 import { getFleetInfo } from "../utils/Data.ts";
 import { Ship } from "../client/index.ts";
-import { Position } from "../routes/api/charts/map.tsx";
-import { fetchAllSystemsPositions } from "../utils/Api.ts";
+import { fetchAllSystemsPositions, fetchMapImage } from "../utils/Api.ts";
 
 interface MainProps {
   token: string;
-}
-
-async function fetchMapImageUrl(positions: Position[]): Promise<string> {
-  const response = await fetch("/api/charts/map", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ isLabel: false, data: positions }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const svg = await response.text();
-  return svg;
 }
 
 export default function Home({ token }: MainProps) {
@@ -40,7 +23,7 @@ export default function Home({ token }: MainProps) {
     const positions = await fetchAllSystemsPositions();
 
     if (positions && positions.length > 0) {
-      const svg = await fetchMapImageUrl(positions);
+      const svg = await fetchMapImage(positions);
       setAllSystemsMapSvg(svg);
     }
   }
