@@ -2,6 +2,6 @@
 	email = mskymmt.sy@gmail.com
 	name = torun225
 [credential]
-	helper = "!f() { /root/.vscode-server/bin/dc96b837cf6bb4af9cd736aa3af08cf8279f7685/node /tmp/vscode-remote-containers-16bde42a-7082-4223-bd22-2ae067e0f567.js git-credential-helper $*; }; f"
+	helper = "!f() { /root/.vscode-server/bin/dc96b837cf6bb4af9cd736aa3af08cf8279f7685/node /tmp/vscode-remote-containers-ee915da9-60d5-47af-8c3f-08dec7b16599.js git-credential-helper $*; }; f"
 [safe]
 	directory = /root

@@ -7,7 +7,7 @@ export interface Position {
   y: number;
 }
 
-export const handler: Handlers = {
+export const handler: Handlers<Position | null> = {
   GET(_req: Request, _ctx: FreshContext) {
     const url = new URL(_req.url);
     const dataParam = url.searchParams.get("data");
@@ -37,8 +37,8 @@ export const handler: Handlers = {
           x: {
             type: "linear",
             position: "center",
-            min: -10000,
-            max: 10000,
+            min: -80000,
+            max: 80000,
             ticks: {
               stepSize: 5000,
               color: "silver",
@@ -50,8 +50,8 @@ export const handler: Handlers = {
           y: {
             type: "linear",
             position: "center",
-            min: -10000,
-            max: 10000,
+            min: -80000,
+            max: 80000,
             ticks: {
               stepSize: 5000,
               color: "silver",
@@ -85,6 +85,57 @@ export const handler: Handlers = {
           ctx.restore();
         },
       }],
+      width: 300,
+      height: 300,
+    });
+  },
+
+  async POST(req: Request, _ctx: FreshContext) {
+    const datasetsData = await req.json();
+
+    return renderChart({
+      type: "scatter",
+      data: {
+        datasets: [{
+          data: datasetsData,
+          backgroundColor: "rgb(255, 99, 132)",
+        }],
+      },
+      options: {
+        scales: {
+          x: {
+            type: "linear",
+            position: "center",
+            min: -80000,
+            max: 80000,
+            ticks: {
+              stepSize: 5000,
+              color: "silver",
+            },
+            grid: {
+              color: "gray",
+            },
+          },
+          y: {
+            type: "linear",
+            position: "center",
+            min: -80000,
+            max: 80000,
+            ticks: {
+              stepSize: 5000,
+              color: "silver",
+            },
+            grid: {
+              color: "gray",
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
       width: 300,
       height: 300,
     });
