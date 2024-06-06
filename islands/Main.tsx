@@ -15,7 +15,7 @@ async function fetchMapImageUrl(positions: Position[]): Promise<string> {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(positions),
+    body: JSON.stringify({ isLabel: false, data: positions }),
   });
 
   if (!response.ok) {
