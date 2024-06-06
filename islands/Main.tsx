@@ -22,7 +22,6 @@ async function fetchMapImageUrl(positions: Position[]): Promise<string> {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
   const svg = await response.text();
-  console.log(svg);
   return svg;
 }
 
