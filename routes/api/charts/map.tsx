@@ -12,6 +12,8 @@ export interface RequestData {
   data: Position[];
 }
 
+const SIZE = 500;
+
 export const handler: Handlers<Position | null> = {
   GET(_req: Request, _ctx: FreshContext) {
     const url = new URL(_req.url);
@@ -72,8 +74,8 @@ export const handler: Handlers<Position | null> = {
           },
         },
       },
-      width: 300,
-      height: 300,
+      width: SIZE,
+      height: SIZE,
     });
   },
 
@@ -161,18 +163,23 @@ export const handler: Handlers<Position | null> = {
             const meta = chart.getDatasetMeta(0);
             meta.data.forEach((point, index) => {
               const data = datasetsData[index];
+              const spritedLabel = data.label.split("-");
               ctx.fillStyle = "silver";
               ctx.textAlign = "center";
               ctx.textBaseline = "middle";
               const posX = point.x;
               const posY = point.y;
-              ctx.fillText(data.label, posX, posY - 10);
+              ctx.fillText(
+                spritedLabel[spritedLabel.length - 1],
+                posX,
+                posY - 10,
+              );
             });
             ctx.restore();
           },
         }],
-        width: 300,
-        height: 300,
+        width: SIZE,
+        height: SIZE,
       });
     } else {
       return renderChart({
@@ -218,8 +225,8 @@ export const handler: Handlers<Position | null> = {
             },
           },
         },
-        width: 300,
-        height: 300,
+        width: SIZE,
+        height: SIZE,
       });
     }
   },

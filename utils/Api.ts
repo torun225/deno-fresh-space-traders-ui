@@ -1,3 +1,4 @@
+import { System } from "../client/index.ts";
 import { Position } from "../routes/api/charts/map.tsx";
 
 export async function fetchAllSystemsPositions(): Promise<Position[]> {
@@ -15,13 +16,16 @@ export async function fetchAllSystemsPositions(): Promise<Position[]> {
   }
 }
 
-export async function fetchMapImage(positions: Position[]): Promise<string> {
+export async function fetchMapImage(
+  positions: Position[],
+  isLabel: boolean,
+): Promise<string> {
   const response = await fetch("/api/charts/map", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ isLabel: false, data: positions }),
+    body: JSON.stringify({ isLabel: isLabel, data: positions }),
   });
 
   if (!response.ok) {
@@ -29,4 +33,16 @@ export async function fetchMapImage(positions: Position[]): Promise<string> {
   }
   const svg = await response.text();
   return svg;
+}
+
+export async function fetchSystem(
+  label: string,
+): Promise<System> {
+  const response = await fetch("/api/system/" + label);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const res = await response.json();
+  return res;
 }

@@ -6,6 +6,7 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_charts_map from "./routes/api/charts/map.tsx";
 import * as $api_init_systemMap from "./routes/api/init/systemMap.tsx";
+import * as $api_system_symbol_ from "./routes/api/system/[symbol].tsx";
 import * as $api_system_index from "./routes/api/system/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $FleetInfo from "./islands/FleetInfo.tsx";
@@ -18,6 +19,7 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/api/charts/map.tsx": $api_charts_map,
     "./routes/api/init/systemMap.tsx": $api_init_systemMap,
+    "./routes/api/system/[symbol].tsx": $api_system_symbol_,
     "./routes/api/system/index.tsx": $api_system_index,
     "./routes/index.tsx": $index,
   },

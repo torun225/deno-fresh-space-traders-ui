@@ -1,8 +1,10 @@
 import FleetInfo from "./FleetInfo.tsx";
 import { useEffect, useState } from "preact/hooks";
-import { getFleetInfo } from "../utils/Data.ts";
+import { getFleetInfo, getSystemInfo } from "../utils/Data.ts";
 import { Ship } from "../client/index.ts";
-import { fetchAllSystemsPositions, fetchMapImage } from "../utils/Api.ts";
+import { fetchMapImage } from "../utils/Api.ts";
+import { convertSystem2WaypointPosition } from "../utils/Convert.ts";
+import { fleetLocationSystems, selectedSystem } from "../utils/Share.ts";
 
 interface MainProps {
   token: string;
@@ -10,27 +12,41 @@ interface MainProps {
 
 export default function Home({ token }: MainProps) {
   const [fleetInfo, setFleetInfo] = useState<Ship[]>();
-  const [allSystemsMapSvg, setAllSystemsMapSvg] = useState<string>();
+  const [mapSvg, setMapSvg] = useState<string>();
 
   async function fetchFleetInfo() {
     const ships = await getFleetInfo(token);
     setFleetInfo(ships);
 
-    const systemSymbols = Array.from(
+    const uniqueSystems = Array.from(
       new Set(ships.map((ship) => ship.nav.systemSymbol)),
     );
+    const systemInfoPromises = uniqueSystems.map((symbol) =>
+      getSystemInfo(token, symbol)
+    );
 
-    const positions = await fetchAllSystemsPositions();
+    const systems = await Promise.all(systemInfoPromises);
 
-    if (positions && positions.length > 0) {
-      const svg = await fetchMapImage(positions);
-      setAllSystemsMapSvg(svg);
-    }
+    fleetLocationSystems.value = systems;
+    selectedSystem.value = systems[0];
   }
 
   useEffect(() => {
     fetchFleetInfo();
   }, [token]);
+
+  useEffect(() => {
+    async function fetchMap() {
+      if (selectedSystem.value) {
+        const svg = await fetchMapImage(
+          convertSystem2WaypointPosition(selectedSystem.value),
+          true,
+        );
+        setMapSvg(svg);
+      }
+    }
+    fetchMap();
+  }, [selectedSystem.value]);
 
   return (
     <div class="m-4">
@@ -40,11 +56,11 @@ export default function Home({ token }: MainProps) {
         <div class="basis-1/3"></div>
         <div class="divider divider-horizontal"></div>
         <div class="basis-1/3">
-          <h1 class="text-xl">Galaxy Map</h1>
-          {allSystemsMapSvg && (
+          <h1 class="text-xl">{selectedSystem.valueOf()?.symbol} Map</h1>
+          {mapSvg && (
             <div
               class="mx-auto my-4 h-96"
-              dangerouslySetInnerHTML={{ __html: allSystemsMapSvg }}
+              dangerouslySetInnerHTML={{ __html: mapSvg }}
             />
           )}
         </div>
