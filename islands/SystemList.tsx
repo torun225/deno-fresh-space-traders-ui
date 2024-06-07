@@ -1,15 +1,33 @@
+import { useEffect, useState } from "preact/hooks";
+import { System, Waypoint } from "../client/index.ts";
 import { convertTraits2String } from "../utils/Convert.ts";
-import { selectedSystem, waypointsOfSelectedSystem } from "../utils/Share.ts";
+import { getSystemInfo, getWaypoints } from "../utils/Data.ts";
 
 interface SystemListProps {
   className?: string;
+  token: string;
+  symbol: string;
 }
 
-export default function SystemList({ className }: SystemListProps) {
+export default function SystemList(
+  { className, token, symbol }: SystemListProps,
+) {
+  const [system, setSystem] = useState<System>();
+  const [waypoints, setWaypoints] = useState<Waypoint[]>();
+
+  async function fetchSystemAndWaypoints() {
+    setSystem(await getSystemInfo(token, symbol));
+    setWaypoints(await getWaypoints(token, symbol));
+  }
+
+  useEffect(() => {
+    fetchSystemAndWaypoints();
+  }, [symbol]);
+
   return (
     <div class={`grid ${className}`}>
       <h1 class="text-xl">
-        Waypoint List of {selectedSystem.valueOf()?.symbol}
+        Waypoint List of {system?.symbol}
       </h1>
       <div class="overflow-y-auto">
         <table class="table table-pin-rows">
@@ -22,7 +40,7 @@ export default function SystemList({ className }: SystemListProps) {
             </tr>
           </thead>
           <tbody>
-            {waypointsOfSelectedSystem.valueOf()?.map((wp) => (
+            {waypoints?.map((wp) => (
               <tr key={wp.symbol} className="">
                 <td>{wp.symbol}</td>
                 <td>{wp.type.toString()}</td>
