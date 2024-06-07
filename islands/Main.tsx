@@ -1,10 +1,15 @@
 import FleetInfo from "./FleetInfo.tsx";
 import { useEffect, useState } from "preact/hooks";
-import { getFleetInfo, getSystemInfo } from "../utils/Data.ts";
+import { getFleetInfo, getSystemInfo, getWaypoints } from "../utils/Data.ts";
 import { Ship } from "../client/index.ts";
 import { fetchMapImage } from "../utils/Api.ts";
 import { convertSystem2WaypointPosition } from "../utils/Convert.ts";
-import { fleetLocationSystems, selectedSystem } from "../utils/Share.ts";
+import {
+  fleetLocationSystems,
+  selectedSystem,
+  waypointsOfSelectedSystem,
+} from "../utils/Share.ts";
+import SystemList from "./SystemList.tsx";
 
 interface MainProps {
   token: string;
@@ -29,6 +34,10 @@ export default function Home({ token }: MainProps) {
 
     fleetLocationSystems.value = systems;
     selectedSystem.value = systems[0];
+    waypointsOfSelectedSystem.value = await getWaypoints(
+      token,
+      systems[0].symbol,
+    );
   }
 
   useEffect(() => {
@@ -51,18 +60,21 @@ export default function Home({ token }: MainProps) {
   return (
     <div class="m-4">
       <div class="max-w-screen-xl max-h-screen mx-auto flex flex-row">
-        <FleetInfo className="basis-1/3" fleet={fleetInfo} />
+        <FleetInfo token={token} className="basis-1/3" fleet={fleetInfo} />
         <div class="divider divider-horizontal"></div>
-        <div class="basis-1/3"></div>
-        <div class="divider divider-horizontal"></div>
-        <div class="basis-1/3">
-          <h1 class="text-xl">{selectedSystem.valueOf()?.symbol} Map</h1>
-          {mapSvg && (
-            <div
-              class="mx-auto my-4 h-96"
-              dangerouslySetInnerHTML={{ __html: mapSvg }}
-            />
-          )}
+        <div class="basis-2/3">
+          <div class="h-[45vh]">
+            <h1 class="text-xl">{selectedSystem.valueOf()?.symbol} Map</h1>
+            {mapSvg && (
+              <div
+                className="overflow-hidden w-full h-full"
+                dangerouslySetInnerHTML={{
+                  __html: mapSvg.replace("<svg", '<svg class="w-auto h-auto"'),
+                }}
+              />
+            )}
+          </div>
+          <SystemList className="h-[45vh]"></SystemList>
         </div>
       </div>
     </div>

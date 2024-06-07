@@ -1,18 +1,23 @@
-import { Ship, System } from "../client/index.ts";
+import { Ship, System, WaypointTraitSymbol } from "../client/index.ts";
 import { fetchSystem } from "../utils/Api.ts";
-import { getCollection } from "../utils/DataBase.ts";
-import { selectedSystem } from "../utils/Share.ts";
+import { getWaypoints } from "../utils/Data.ts";
+import { selectedSystem, waypointsOfSelectedSystem } from "../utils/Share.ts";
 
 interface FleetInfoProps {
   className?: string;
   fleet?: Ship[];
+  token: string;
 }
 
-async function selectMap(ship: Ship) {
+async function selectMap(token: string, ship: Ship) {
   selectedSystem.value = await fetchSystem(ship.nav.systemSymbol);
+  waypointsOfSelectedSystem.value = await getWaypoints(
+    token,
+    ship.nav.systemSymbol,
+  );
 }
 
-export default function FleetInfo({ className, fleet }: FleetInfoProps) {
+export default function FleetInfo({ className, fleet, token }: FleetInfoProps) {
   return (
     <div class={`grid gap-4 ${className}`}>
       <h1 class="text-xl">Fleet Info</h1>
@@ -49,7 +54,7 @@ export default function FleetInfo({ className, fleet }: FleetInfoProps) {
                 <div class="join">
                   <button
                     class="btn join-item btn-primary"
-                    onClick={() => selectMap(ship)}
+                    onClick={() => selectMap(token, ship)}
                   >
                     Map
                   </button>
