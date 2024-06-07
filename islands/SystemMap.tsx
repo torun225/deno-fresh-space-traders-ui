@@ -9,18 +9,15 @@ import { fetchMapImage } from "../utils/Api.ts";
 
 interface SystemMapProps {
   className?: string;
-  token: string;
-  symbol: string;
+  system: System;
 }
 
 export default function SystemMap(
-  { className, token, symbol }: SystemMapProps,
+  { className, system }: SystemMapProps,
 ) {
   const [mapSvg, setMapSvg] = useState<string>();
-  const [system, setSystem] = useState<System>();
 
   async function fetchMap() {
-    setSystem(await getSystemInfo(token, symbol));
     if (system) {
       setMapSvg(
         await fetchMapImage(

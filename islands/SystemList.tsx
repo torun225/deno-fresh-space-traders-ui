@@ -5,25 +5,13 @@ import { getSystemInfo, getWaypoints } from "../utils/Data.ts";
 
 interface SystemListProps {
   className?: string;
-  token: string;
-  symbol: string;
+  system: System;
+  waypoints: Waypoint[];
 }
 
 export default function SystemList(
-  { className, token, symbol }: SystemListProps,
+  { className, system, waypoints }: SystemListProps,
 ) {
-  const [system, setSystem] = useState<System>();
-  const [waypoints, setWaypoints] = useState<Waypoint[]>();
-
-  async function fetchSystemAndWaypoints() {
-    setSystem(await getSystemInfo(token, symbol));
-    setWaypoints(await getWaypoints(token, symbol));
-  }
-
-  useEffect(() => {
-    fetchSystemAndWaypoints();
-  }, [symbol]);
-
   return (
     <div class={`grid ${className}`}>
       <h1 class="text-xl">
