@@ -1,6 +1,7 @@
 import { delay } from "$std/async/delay.ts";
 import { createConfiguration } from "../client/configuration.ts";
 import {
+  DefaultApi,
   FleetApi,
   RequestContext,
   Ship,
@@ -9,6 +10,9 @@ import {
   WaypointTraitSymbol,
   WaypointType,
 } from "../client/index.ts";
+import { Faction } from "../client/models/Faction.ts";
+import { FactionSymbol } from "../client/models/FactionSymbol.ts";
+import { RegisterRequest } from "../client/models/RegisterRequest.ts";
 
 const LIMIT = 20;
 
@@ -23,6 +27,20 @@ function myConfiguration(host: string, token: string) {
           httpMethod,
         );
         context.setHeaderParam("Authorization", `Bearer ${token}`);
+        return context;
+      },
+    },
+  });
+}
+
+function initConfiguration(host: string) {
+  return createConfiguration({
+    baseServer: {
+      makeRequestContext: (endpoint, httpMethod) => {
+        const context: RequestContext = new RequestContext(
+          host + endpoint,
+          httpMethod,
+        );
         return context;
       },
     },
@@ -103,4 +121,15 @@ export async function getWaypoints(
   }
 
   return responce;
+}
+
+export function createBearerToken(symbol: string, faction: FactionSymbol) {
+  const defaultApi = new DefaultApi(initConfiguration(SERVER_ADDRESS));
+
+  const registerRequest: RegisterRequest = {
+    faction: faction,
+    symbol: symbol,
+  };
+
+  return defaultApi.register(registerRequest);
 }

@@ -1,9 +1,21 @@
-import { config, DotenvConfig } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 import Main from "../islands/Main.tsx";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { getCookies } from "$std/http/cookie.ts";
 
-const config_env: DotenvConfig = config();
-const token: string = config_env.token;
+interface HomeProps extends PageProps {
+  data: {
+    token: string;
+  };
+}
 
-export default function Home() {
-  return <Main token={token}></Main>;
+export const handler: Handlers = {
+  GET(_req, _ctx) {
+    const cookies = getCookies(_req.headers);
+    const bearerToken = cookies.bearerToken;
+    return _ctx.render({ token: bearerToken });
+  },
+};
+
+export default function Home(props: HomeProps) {
+  return <Main token={props.data.token}></Main>;
 }
