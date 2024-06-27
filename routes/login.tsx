@@ -1,8 +1,9 @@
 import { config, DotenvConfig } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 import { Handlers } from "$fresh/server.ts";
 import { Cookie, getCookies, setCookie } from "$std/http/cookie.ts";
-import { FactionSymbol } from "../client/index.ts";
+import { FactionSymbol, SystemFaction } from "../client/index.ts";
 import { createBearerToken } from "../utils/Data.ts";
+import { SelectInput } from "../components/SelectInput.tsx";
 
 const config_env: DotenvConfig = config();
 
@@ -73,12 +74,11 @@ export default function Login() {
       <form method="POST" class="grid grid-cols-3 gap-4">
         <input type="hidden" name="type" value="new" />
         <input type="text" name="symbol" placeholder="Enter symbol" required />
-        <input
-          type="text"
+        <SelectInput
           name="faction"
-          placeholder="Enter faction"
-          required
-        />
+          selectList={Object.values(FactionSymbol)}
+        >
+        </SelectInput>
         <button type="submit" class="btn">Create Token</button>
       </form>
       <h2 class="mt-4">Use Existing Bearer Token</h2>
